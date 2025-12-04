@@ -96,7 +96,7 @@ func TestWriteGitHubActionsError_UsesAdditionalLinesForMessage(t *testing.T) {
 
 	assert.Equal(t,
 		flushGitHubActionsBuffer(t, writer, out),
-		"::error file=my_integration_test.go,line=42,title=pkg.TestHasDiff::Expected <int>: 0 to equal <int>: 1\n",
+		"::error file=my_integration_test.go,line=42,title=pkg.TestHasDiff::Expected%0A<int>: 0%0Ato equal%0A<int>: 1\n",
 	)
 }
 

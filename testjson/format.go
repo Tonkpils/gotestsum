@@ -679,7 +679,7 @@ func collectAdditionalMessage(lines []string, patterns githubActionsErrorPattern
 		parts = append(parts, trimmed)
 	}
 
-	return strings.Join(parts, " ")
+	return strings.Join(parts, "\n")
 }
 
 func filterGitHubActionsGroupOutput(action Action, lines []string) []string {
