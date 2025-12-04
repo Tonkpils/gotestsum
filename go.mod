@@ -1,4 +1,4 @@
-module gotest.tools/gotestsum
+module github.com/Tonkpils/gotestsum
 
 go 1.24.0
 
@@ -13,6 +13,7 @@ require (
 	golang.org/x/sys v0.36.0
 	golang.org/x/term v0.35.0
 	golang.org/x/tools v0.36.0
+	gotest.tools/gotestsum v1.13.0
 	gotest.tools/v3 v3.5.2
 )
 
