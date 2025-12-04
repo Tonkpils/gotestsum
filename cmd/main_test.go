@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Tonkpils/gotestsum/testjson"
 	"github.com/fatih/color"
-	"gotest.tools/gotestsum/testjson"
 	"gotest.tools/v3/assert"
 	"gotest.tools/v3/assert/cmp"
 	"gotest.tools/v3/env"

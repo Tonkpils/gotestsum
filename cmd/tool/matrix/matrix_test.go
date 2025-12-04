@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"gotest.tools/gotestsum/testjson"
+	"github.com/Tonkpils/gotestsum/testjson"
 	"gotest.tools/v3/assert"
 	"gotest.tools/v3/fs"
 )

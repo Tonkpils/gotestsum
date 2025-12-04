@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Tonkpils/gotestsum/internal/log"
 	"github.com/fsnotify/fsnotify"
-	"gotest.tools/gotestsum/internal/log"
 )
 
 const maxDepth = 7

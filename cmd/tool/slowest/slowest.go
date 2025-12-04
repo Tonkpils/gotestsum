@@ -6,10 +6,10 @@ import (
 	"os"
 	"time"
 
+	"github.com/Tonkpils/gotestsum/internal/aggregate"
+	"github.com/Tonkpils/gotestsum/internal/log"
+	"github.com/Tonkpils/gotestsum/testjson"
 	"github.com/dnephin/pflag"
-	"gotest.tools/gotestsum/internal/aggregate"
-	"gotest.tools/gotestsum/internal/log"
-	"gotest.tools/gotestsum/testjson"
 )
 
 // Run the command

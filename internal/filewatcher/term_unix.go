@@ -10,8 +10,8 @@ import (
 	"io"
 	"os"
 
+	"github.com/Tonkpils/gotestsum/internal/log"
 	"golang.org/x/sys/unix"
-	"gotest.tools/gotestsum/internal/log"
 )
 
 type terminal struct {

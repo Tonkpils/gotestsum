@@ -13,10 +13,10 @@ import (
 	"sync/atomic"
 	"syscall"
 
+	"github.com/Tonkpils/gotestsum/internal/log"
+	"github.com/Tonkpils/gotestsum/testjson"
 	"github.com/dnephin/pflag"
 	"github.com/fatih/color"
-	"gotest.tools/gotestsum/internal/log"
-	"gotest.tools/gotestsum/testjson"
 )
 
 var version = ""

@@ -9,9 +9,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Tonkpils/gotestsum/internal/log"
+	"github.com/Tonkpils/gotestsum/testjson"
 	"golang.org/x/tools/go/packages"
-	"gotest.tools/gotestsum/internal/log"
-	"gotest.tools/gotestsum/testjson"
 )
 
 func writeTestSkip(tcs []testjson.TestCase, skipStmt ast.Stmt) error {
