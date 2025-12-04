@@ -451,6 +451,8 @@ func NewEventFormatter(out io.Writer, format string, formatOpts FormatOptions) E
 		return pkgNameWithFailuresFormat(out, formatOpts)
 	case "github-actions", "github-action":
 		return githubActionsFormat(out)
+	case "github-actions-quiet":
+		return githubActionsQuietFormat(out)
 	default:
 		return nil
 	}
@@ -474,6 +476,14 @@ func newGitHubActionsErrorPatterns() githubActionsErrorPatterns {
 }
 
 func githubActionsFormat(out io.Writer) EventFormatter {
+	return newGitHubActionsFormatter(out, false)
+}
+
+func githubActionsQuietFormat(out io.Writer) EventFormatter {
+	return newGitHubActionsFormatter(out, true)
+}
+
+func newGitHubActionsFormatter(out io.Writer, quiet bool) EventFormatter {
 	buf := bufio.NewWriter(out)
 
 	type name struct {
@@ -497,22 +507,30 @@ func githubActionsFormat(out io.Writer) EventFormatter {
 
 		// test case end event
 		if event.Test != "" && event.Action.IsTerminal() {
-			// Emit error annotation for failed tests
+			rawOutput := output[key]
+			filteredOutput := rawOutput
+			if quiet {
+				filteredOutput = filterGitHubActionsGroupOutput(event.Action, rawOutput)
+			}
+			shouldGroup := len(filteredOutput) > 0
+			// Emit error annotation for failed tests using full output
 			if event.Action == ActionFail {
-				writeGitHubActionsError(buf, event, output[key], patterns)
+				writeGitHubActionsError(buf, event, rawOutput, patterns)
 			}
 
-			if len(output[key]) > 0 {
+			if shouldGroup {
 				buf.WriteString("::group::")
 			} else {
 				buf.WriteString("  ")
 			}
 			testNameFormatTestEvent(buf, event)
 
-			for _, item := range output[key] {
-				buf.WriteString(item)
+			if len(filteredOutput) > 0 {
+				for _, item := range filteredOutput {
+					buf.WriteString(item)
+				}
 			}
-			if len(output[key]) > 0 {
+			if shouldGroup {
 				buf.WriteString("\n::endgroup::\n")
 			}
 			delete(output, key)
@@ -662,6 +680,26 @@ func collectAdditionalMessage(lines []string, patterns githubActionsErrorPattern
 	}
 
 	return strings.Join(parts, " ")
+}
+
+func filterGitHubActionsGroupOutput(action Action, lines []string) []string {
+	if len(lines) == 0 {
+		return nil
+	}
+	if action == ActionFail || action == ActionSkip {
+		return lines
+	}
+	filtered := make([]string, 0, len(lines))
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed == "" {
+			continue
+		}
+		if strings.HasPrefix(trimmed, "--- ") || strings.HasPrefix(trimmed, "=== ") {
+			filtered = append(filtered, line)
+		}
+	}
+	return filtered
 }
 
 func repoRelativeFile(event TestEvent, file string) string {
