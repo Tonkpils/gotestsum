@@ -140,3 +140,29 @@ func TestWriteGitHubActionsError_PanicUsesRepoRelativeFile(t *testing.T) {
 		"::error file=pkg/bar/bar_test.go,line=55,title=pkg.TestPanicsHard::panic: oh no\n",
 	)
 }
+
+func TestFilterGitHubActionsGroupOutput_PassFiltersLogs(t *testing.T) {
+	lines := []string{
+		"\tgood_test.go:15: this is a log\n",
+		"\t--- PASS: TestNested/a (0.00s)\n",
+		"\t=== RUN   child\n",
+		"plain stdout\n",
+	}
+	filtered := filterGitHubActionsGroupOutput(ActionPass, lines)
+	assert.DeepEqual(t, filtered, []string{
+		"\t--- PASS: TestNested/a (0.00s)\n",
+		"\t=== RUN   child\n",
+	})
+}
+
+func TestFilterGitHubActionsGroupOutput_SkipKeepsOutput(t *testing.T) {
+	lines := []string{"\tgood_test.go:23: skipping reason\n"}
+	filtered := filterGitHubActionsGroupOutput(ActionSkip, lines)
+	assert.DeepEqual(t, filtered, lines)
+}
+
+func TestFilterGitHubActionsGroupOutput_FailKeepsOutput(t *testing.T) {
+	lines := []string{"failure log\n", "details\n"}
+	filtered := filterGitHubActionsGroupOutput(ActionFail, lines)
+	assert.DeepEqual(t, filtered, lines)
+}
