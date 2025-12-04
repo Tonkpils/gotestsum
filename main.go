@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"gotest.tools/gotestsum/cmd"
-	"gotest.tools/gotestsum/cmd/tool/matrix"
-	"gotest.tools/gotestsum/cmd/tool/slowest"
-	"gotest.tools/gotestsum/internal/log"
+	"github.com/Tonkpils/gotestsum/cmd"
+	"github.com/Tonkpils/gotestsum/cmd/tool/matrix"
+	"github.com/Tonkpils/gotestsum/cmd/tool/slowest"
+	"github.com/Tonkpils/gotestsum/internal/log"
 )
 
 func main() {
