@@ -160,8 +160,8 @@ Formats:
     pkgname-and-test-fails   print a line for each package and failed test output
     testname                 print a line for each test and package
     testdox                  print a sentence for each test using gotestdox
-	    github-actions           testname format with github actions log grouping
-	    github-actions-quiet     github actions formatter that hides passing logs
+    github-actions           testname format with github actions log grouping
+    github-actions-quiet     github actions formatter that hides passing logs
     standard-quiet           standard go test format
     standard-verbose         standard go test -v format
 
